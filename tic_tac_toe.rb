@@ -10,3 +10,11 @@ class Board
     @board.each { |row| p row }
   end
 end
+
+# class for players
+class Player
+  def initialize(name, symbol)
+    @name = name
+    @symbol = symbol
+  end
+end
