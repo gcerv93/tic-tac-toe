@@ -47,6 +47,12 @@ class Player
     @name = name
     @symbol = symbol
   end
+
+  def player_move
+    puts "#{@name}, where would you like to play?"
+    location = gets.chomp until location.to_i.between?(1, 9)
+    location.to_i
+  end
 end
 
 # game loop class
@@ -78,5 +84,8 @@ class Game
     @player_two = Player.new(gets.chomp, 'O')
   end
 
-  def game_turn; end
+  def game_turn
+    game_board.update_board(player_one.symbol, player_one.player_move)
+    game_board.update_board(player_two.symbol, player_two.player_move)
+  end
 end
