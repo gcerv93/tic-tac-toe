@@ -41,6 +41,8 @@ end
 
 # class for players
 class Player
+  attr_reader :symbol
+
   def initialize(name, symbol)
     @name = name
     @symbol = symbol
@@ -49,13 +51,32 @@ end
 
 # game loop class
 class Game
-  attr_reader :game_board
+  attr_reader :game_board, :player_one, :player_two
 
   def initialize
     @game_board = Board.new
+    start_game
   end
 
   def game_loop; end
 
-  def start_game; end
+  def start_game
+    puts "Welcome to Tic-Tac-Toe!\n\n"
+    assign_player_one
+    assign_player_two
+    game_board.display_board
+  end
+
+  def assign_player_one
+    puts 'Player one, enter your name: '
+    @player_one = Player.new(gets.chomp, 'X')
+    puts "\n"
+  end
+
+  def assign_player_two
+    puts 'Player two, enter your name: '
+    @player_two = Player.new(gets.chomp, 'O')
+  end
+
+  def game_turn; end
 end
