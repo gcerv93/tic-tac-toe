@@ -8,19 +8,6 @@ class Board
     @board = starting_board(create_board_array)
   end
 
-  def create_board_array
-    Array.new(3) { Array.new(3) }
-  end
-
-  def starting_board(board_array)
-    i = 0
-    board_array.map do |row|
-      row.map do |_cell|
-        i += 1
-      end
-    end
-  end
-
   def display_board
     puts "\n"
     board.each { |row| p row }
@@ -60,6 +47,21 @@ class Board
   def legal_move?(location)
     flat = board.flatten
     return true if flat[location - 1].is_a?(Numeric)
+  end
+
+  private
+
+  def create_board_array
+    Array.new(3) { Array.new(3) }
+  end
+
+  def starting_board(board_array)
+    i = 0
+    board_array.map do |row|
+      row.map do |_cell|
+        i += 1
+      end
+    end
   end
 end
 
