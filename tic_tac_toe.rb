@@ -53,6 +53,12 @@ class Board
     false
   end
 
+  def new_row_win?(symbol)
+    new_board[0..2].all? { |sym| sym == symbol } ||
+      new_board[3..5].all? { |sym| sym == symbol } ||
+      new_board[6..8].all? { |sym| sym == symbol }
+  end
+
   # remove flattening
   def column_win?(symbol)
     flat = board.flatten
