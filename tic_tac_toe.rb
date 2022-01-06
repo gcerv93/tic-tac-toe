@@ -37,6 +37,13 @@ class Board
     end
     display_board
   end
+
+  def row_win?
+    board.each do |row|
+      return true if row.uniq.length == 1
+    end
+    false
+  end
 end
 
 # class for players
