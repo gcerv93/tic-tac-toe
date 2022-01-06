@@ -101,12 +101,13 @@ class Game
   end
 
   def start_game
-    puts "Welcome to Tic-Tac-Toe!\n\n"
+    puts "\nWelcome to Tic-Tac-Toe!\n\n"
     assign_player_one
     assign_player_two
     game_board.display_board
     game_loop
     tie_message if moves == 10
+    ask_for_new_game
   end
 
   def assign_player_one
@@ -127,5 +128,16 @@ class Game
 
   def tie_message
     puts "It's a tie, no one won :("
+  end
+
+  def ask_for_new_game
+    puts "\nWould you like to play a new game? [Y/N]"
+    answer = gets.chomp
+    answer = gets.chomp until answer.downcase == 'y' || answer.downcase == 'n'
+    if answer.downcase == 'y'
+      Game.new
+    else
+      puts "\nGood Bye!"
+    end
   end
 end
