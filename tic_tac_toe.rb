@@ -40,6 +40,11 @@ class Board
     display_board
   end
 
+  def update_new_board(symbol, location)
+    new_board[location - 1] = symbol
+    display_new_board
+  end
+
   # change
   def row_win?
     board.each do |row|
