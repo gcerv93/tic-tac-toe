@@ -61,11 +61,6 @@ class Board
     flat = board.flatten
     return true if flat[location - 1].is_a?(Numeric)
   end
-
-  def board_full?
-    flat = board.flatten
-    flat.all? { |ele| ele.is_a?(String) }
-  end
 end
 
 # class for players
