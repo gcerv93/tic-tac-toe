@@ -56,6 +56,16 @@ class Board
     flat = board.flatten
     return flat[0] == symbol && flat[8] == symbol || flat[2] == symbol && flat[6] == symbol if flat[4] == symbol
   end
+
+  def legal_move?(location)
+    flat = board.flatten
+    return true if flat[location - 1].is_a?(Numeric)
+  end
+
+  def board_full?
+    flat = board.flatten
+    flat.all? { |ele| ele.is_a?(String) }
+  end
 end
 
 # class for players
@@ -72,29 +82,58 @@ class Player
     location = gets.chomp until location.to_i.between?(1, 9)
     location.to_i
   end
+
+  def player_win?(board)
+    board.row_win? || board.column_win?(symbol) || board.diagonal_win?(symbol)
+  end
+
+  def congratulate_winner
+    puts "Congrats #{@name}, you win!"
+  end
 end
 
 # game loop class
 class Game
-  attr_reader :game_board, :player_one, :player_two
+  attr_reader :game_board, :player_one, :player_two, :moves, :current_player
 
   def initialize
     @game_board = Board.new
+    @moves = 1
     start_game
   end
 
-  def game_loop; end
+  def game_loop
+    while @moves <= 9
+      move = game_move
+      game_board.update_board(current_player.symbol, move)
+      if current_player.player_win?(game_board)
+        current_player.congratulate_winner
+        break
+      end
+      @current_player = change_current_player
+      @moves += 1
+    end
+  end
+
+  def game_move
+    move = current_player.player_move
+    move = current_player.player_move until game_board.legal_move?(move)
+    move
+  end
 
   def start_game
     puts "Welcome to Tic-Tac-Toe!\n\n"
     assign_player_one
     assign_player_two
     game_board.display_board
+    game_loop
+    tie_message if moves == 10
   end
 
   def assign_player_one
     puts 'Player one, enter your name: '
     @player_one = Player.new(gets.chomp, 'X')
+    @current_player = player_one
     puts "\n"
   end
 
@@ -103,8 +142,11 @@ class Game
     @player_two = Player.new(gets.chomp, 'O')
   end
 
-  def game_turn
-    game_board.update_board(player_one.symbol, player_one.player_move)
-    game_board.update_board(player_two.symbol, player_two.player_move)
+  def change_current_player
+    current_player == player_one ? player_two : player_one
+  end
+
+  def tie_message
+    puts "It's a tie, no one won :("
   end
 end
