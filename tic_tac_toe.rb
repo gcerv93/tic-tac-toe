@@ -44,6 +44,18 @@ class Board
     end
     false
   end
+
+  def column_win?(symbol)
+    flat = board.flatten
+    flat.values_at(0, 3, 6).all? { |sym| sym == symbol } ||
+      flat.values_at(1, 4, 7).all? { |sym| sym == symbol } ||
+      flat.values_at(2, 5, 8).all? { |sym| sym == symbol }
+  end
+
+  def diagonal_win?(symbol)
+    flat = board.flatten
+    return flat[0] == symbol && flat[8] == symbol || flat[2] == symbol && flat[6] == symbol if flat[4] == symbol
+  end
 end
 
 # class for players
