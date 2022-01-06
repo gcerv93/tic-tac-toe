@@ -2,18 +2,33 @@
 
 # class for board
 class Board
-  attr_reader :board
+  attr_reader :board, :new_board
 
   def initialize
     @board = starting_board(create_board_array)
+    @new_board = Array.new(9) { |n| n + 1 }
   end
 
+  # change
   def display_board
     puts "\n"
     board.each { |row| p row }
     puts "\n"
   end
 
+  # rubocop:disable Metrics/AbcSize
+  def display_new_board
+    puts "\n
+    #{new_board[0]} | #{new_board[1]} | #{new_board[2]}
+    --+---+--
+    #{new_board[3]} | #{new_board[4]} | #{new_board[5]}
+    --+---+--
+    #{new_board[6]} | #{new_board[7]} | #{new_board[8]}
+    \n"
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  # change
   def update_board(symbol, location)
     if location <= 3
       board[0][location - 1] = symbol
@@ -25,6 +40,7 @@ class Board
     display_board
   end
 
+  # change
   def row_win?
     board.each do |row|
       return true if row.uniq.length == 1
@@ -32,6 +48,7 @@ class Board
     false
   end
 
+  # remove flattening
   def column_win?(symbol)
     flat = board.flatten
     flat.values_at(0, 3, 6).all? { |sym| sym == symbol } ||
@@ -39,11 +56,13 @@ class Board
       flat.values_at(2, 5, 8).all? { |sym| sym == symbol }
   end
 
+  # remove flattening
   def diagonal_win?(symbol)
     flat = board.flatten
     return flat[0] == symbol && flat[8] == symbol || flat[2] == symbol && flat[6] == symbol if flat[4] == symbol
   end
 
+  # remove flattening
   def legal_move?(location)
     flat = board.flatten
     return true if flat[location - 1].is_a?(Numeric)
@@ -51,10 +70,12 @@ class Board
 
   private
 
+  # remove
   def create_board_array
     Array.new(3) { Array.new(3) }
   end
-
+ 
+  # remove
   def starting_board(board_array)
     i = 0
     board_array.map do |row|
