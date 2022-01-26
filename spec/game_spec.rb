@@ -14,6 +14,30 @@ describe Game do
 
   subject(:game) { described_class.new }
 
+  describe '#game_loop' do
+    before do
+      game.instance_variable_set(:@moves, 9)
+      game.instance_variable_set(:@game_board, instance_double(Board))
+      game.instance_variable_set(:@current_player, instance_double(Player))
+      allow(game.current_player).to receive(:player_move)
+      allow(game.current_player).to receive(:player_win?)
+      allow(game.game_board).to receive(:update_board)
+      allow(game.game_board).to receive(:legal_move?).and_return(true)
+      allow(game.current_player).to receive(:symbol).and_return('X')
+    end
+
+    it 'updates the moves variable' do
+      expect{ game.game_loop }.to change { game.moves }.by(1)
+      game.game_loop
+    end
+
+    it 'breaks when a player wins' do
+      allow(game.current_player).to receive(:player_win?).and_return(true)
+      expect(game.current_player).to receive(:congratulate_winner)
+      game.game_loop
+    end
+  end
+
   describe '#game_move' do
     before do
       game.instance_variable_set(:@current_player, instance_double(Player))
