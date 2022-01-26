@@ -10,7 +10,6 @@ class Game
   def initialize
     @game_board = Board.new
     @moves = 1
-    start_game
   end
 
   def game_loop
