@@ -220,5 +220,19 @@ describe Board do
       end
     end
   end
+
+  describe '#legal_move?' do
+    it 'returns true if move is legal' do
+      location = 3
+      expect(board.legal_move?(location)).to eq(true)
+    end
+
+    it 'returns nil if move is not legal' do
+      game_board = board.instance_variable_get(:@board)
+      game_board[2] = 'x'
+      location = 3
+      expect(board.legal_move?(location)).to be_nil
+    end
+  end
 end
 # rubocop: enable Metrics/BlockLength
